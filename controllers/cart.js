@@ -3,15 +3,22 @@ const product             = require('../models').Product;
 const cart                = require('../models').Cart;
 const combo_product_model = require('../models').ComboProduct;
 const collect             = require('collect.js');
+const Joi = require('joi');
+
+let schema = Joi.object({
+   product_id: Joi.number().integer().min(1)
+});
 
 module.exports = {
 
 
 
 
-
 	add(req, res) {
 		console.log(req.query)
+		const { error, value } = schema.validate({ product_id: req.query.product_id });
+
+
 		if (req.query.product_id) {
 			return cart
 				.create({
